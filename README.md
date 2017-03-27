@@ -6,9 +6,9 @@ Just pull and run.
 
 Currently runs:
 
-- Elasticsearch 1.7
-- Kibana 4.1
-- Analysis-Hebrew 1.7.
+- Elasticsearch 2.4.2
+- Kibana 4.6
+- Analysis-Hebrew 2.4.2
 
 # Run
 
