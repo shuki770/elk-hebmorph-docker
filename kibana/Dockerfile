@@ -1,4 +1,4 @@
-FROM kibana:4.1
+FROM kibana:4.6
 MAINTAINER Ory Band <oryband@gmail.com>
 
 # netcat is necessary for waiting for elasticsearch
