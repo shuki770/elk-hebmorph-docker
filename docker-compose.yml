@@ -1,20 +1,40 @@
-elasticsearch:
-  container_name: elasticsearch
-  restart: always
-  build: elasticsearch/
-  volumes:
-    - ./elasticsearch/config:/usr/share/elasticsearch/config
-  ports:
-    - 9200:9200
-    - 9300:9300
+version: '2'
 
-kibana:
-  container_name: kibana
-  restart: always
-  build: kibana/
-  volumes:
-    - ./kibana/config:/opt/kibana/config
-  ports:
-    - 5601:5601
-  links:
-    - elasticsearch
+services:
+
+  elasticsearch:
+    build: elasticsearch/
+    container_name: elasticsearch
+    restart: always
+
+    ports:
+      - "9200:9200"
+      - "9300:9300"
+    environment:
+      ES_JAVA_OPTS: "-Xmx256m -Xms256m"
+      # disable X-Pack
+      # see https://www.elastic.co/guide/en/x-pack/current/xpack-settings.html
+      #     https://www.elastic.co/guide/en/x-pack/current/installing-xpack.html#xpack-enabling
+      xpack.security.enabled: "false"
+      xpack.monitoring.enabled: "false"
+      xpack.graph.enabled: "false"
+      xpack.watcher.enabled: "false"
+    networks:
+      - elk
+
+  kibana:
+    build: kibana/
+    container_name: kibana
+    volumes:
+      - ./kibana/config/:/usr/share/kibana/config
+    ports:
+      - "5601:5601"
+    networks:
+      - elk
+    depends_on:
+      - elasticsearch
+
+networks:
+
+  elk:
+    driver: bridge
